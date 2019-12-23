@@ -1,20 +1,12 @@
 import React from "react";
 import "./App.css";
 import { Person, PersonItem } from "./components/personitem/PersonItem";
-import { OrderItem } from "./components/orderitem/OrderItem";
+import { PurchaseItem, Purchase } from "./components/purchaseitem/PurchaseItem";
 import { TransactionsTable } from "./components/transactionstable/TransactionsTable";
-
-type Order = {
-	id: number;
-	buyer: Person;
-	amount: number;
-	name: string;
-	consumers: Person[];
-};
 
 type ReducerState = {
 	persons: Person[];
-	orders: Order[];
+	purchases: Purchase[];
 };
 
 type ReducerAction =
@@ -27,22 +19,22 @@ type ReducerAction =
 			person: Person;
 	  }
 	| {
-			type: "add-order";
-			order: Order;
+			type: "add-purchase";
+			purchase: Purchase;
 	  }
 	| {
-			type: "remove-order";
-			order: Order;
+			type: "remove-purchase";
+			purchase: Purchase;
 	  }
 	| {
-			type: "add-person-to-order";
+			type: "add-person-to-purchase";
 			person: Person;
-			order: Order;
+			purchase: Purchase;
 	  }
 	| {
-			type: "remove-person-from-order";
+			type: "remove-person-from-purchase";
 			person: Person;
-			order: Order;
+			purchase: Purchase;
 	  };
 
 const reducer: React.Reducer<ReducerState, ReducerAction> = (prevState, action) => {
@@ -53,17 +45,17 @@ const reducer: React.Reducer<ReducerState, ReducerAction> = (prevState, action) 
 	} else if (action.type === "remove-person") {
 		newState.persons = prevState.persons.filter(p => p.id !== action.person.id);
 
-		newState.orders.forEach(o => {
+		newState.purchases.forEach(o => {
 			o.consumers = o.consumers.filter(c => c.id !== action.person.id);
 		});
-	} else if (action.type === "add-order") {
-		newState.orders = [...prevState.orders, action.order];
-	} else if (action.type === "remove-order") {
-		newState.orders = prevState.orders.filter(o => o.id !== action.order.id);
-	} else if (action.type === "add-person-to-order") {
-		if (!action.order.consumers.find(c => c.id === action.person.id)) action.order.consumers.push(action.person);
-	} else if (action.type === "remove-person-from-order") {
-		action.order.consumers = action.order.consumers.filter(o => o.id !== action.person.id);
+	} else if (action.type === "add-purchase") {
+		newState.purchases = [...prevState.purchases, action.purchase];
+	} else if (action.type === "remove-purchase") {
+		newState.purchases = prevState.purchases.filter(o => o.id !== action.purchase.id);
+	} else if (action.type === "add-person-to-purchase") {
+		if (!action.purchase.consumers.find(c => c.id === action.person.id)) action.purchase.consumers.push(action.person);
+	} else if (action.type === "remove-person-from-purchase") {
+		action.purchase.consumers = action.purchase.consumers.filter(o => o.id !== action.person.id);
 	}
 
 	return newState;
@@ -75,10 +67,10 @@ const createPerson = (() => {
 	return (fields: { name: string }): Person => ({ id: id++, name: fields.name });
 })();
 
-const createOrder = (() => {
+const createPurchase = (() => {
 	let id = 0;
 
-	return (fields: { name: string; amount: number; buyer: Person }): Order => ({
+	return (fields: { name: string; amount: number; buyer: Person }): Purchase => ({
 		id: id++,
 		name: fields.name,
 		amount: fields.amount,
@@ -90,16 +82,16 @@ const createOrder = (() => {
 export const App = () => {
 	const [state, dispatch] = React.useReducer<React.Reducer<ReducerState, ReducerAction>>(reducer, {
 		persons: [],
-		orders: [],
+		purchases: [],
 	});
 	const [personValue, setPersonValue] = React.useState("");
-	const [orderName, setOrderName] = React.useState("");
-	const [orderAmount, setOrderAmount] = React.useState("");
-	const [orderBuyer, setOrderBuyer] = React.useState<Person>();
+	const [purchaseName, setPurchaseName] = React.useState("");
+	const [purchaseAmount, setPurchaseAmount] = React.useState("");
+	const [purchaseBuyer, setPurchaseBuyer] = React.useState<Person>();
 
 	React.useEffect(() => {
-		if (!orderBuyer || !state.persons.find(p => p.id !== orderBuyer.id)) setOrderBuyer(state.persons[0]);
-	}, [orderBuyer, state.persons]);
+		if (!purchaseBuyer || !state.persons.find(p => p.id !== purchaseBuyer.id)) setPurchaseBuyer(state.persons[0]);
+	}, [purchaseBuyer, state.persons]);
 
 	const handlePersonFormSubmit = React.useCallback(
 		(e: React.FormEvent) => {
@@ -118,41 +110,41 @@ export const App = () => {
 		[personValue]
 	);
 
-	const handleOrderFormSubmit = React.useCallback(
+	const handlePurchaseFormSubmit = React.useCallback(
 		(e: React.FormEvent) => {
 			e.preventDefault();
 
-			const trimmedOrderAmount = orderAmount.trim();
-			const parsedAmount = trimmedOrderAmount ? Number(trimmedOrderAmount) : NaN;
-			const trimmedOrderName = orderName.trim();
-			const orderBuyerPerson = orderBuyer && state.persons.find(p => p.id === orderBuyer.id);
+			const trimmedPurchaseAmount = purchaseAmount.trim();
+			const parsedAmount = trimmedPurchaseAmount ? Number(trimmedPurchaseAmount) : NaN;
+			const trimmedPurchaseName = purchaseName.trim();
+			const purchaseBuyerPerson = purchaseBuyer && state.persons.find(p => p.id === purchaseBuyer.id);
 
-			if (isNaN(parsedAmount)) {
-				alert("Invalid order amount");
+			if (!trimmedPurchaseName) {
+				alert("Purchase name cannot be empty");
 				return;
-			} else if (!trimmedOrderName) {
-				alert("Order name cannot be empty");
+			} else if (isNaN(parsedAmount)) {
+				alert("Invalid purchase amount");
 				return;
-			} else if (!orderBuyerPerson) {
-				alert("Order buyer cannot be empty");
+			} else if (!purchaseBuyerPerson) {
+				alert("Purchase buyer cannot be empty");
 				return;
 			}
 
 			dispatch({
-				type: "add-order",
-				order: createOrder({ name: trimmedOrderName, buyer: orderBuyerPerson, amount: parsedAmount }),
+				type: "add-purchase",
+				purchase: createPurchase({ name: trimmedPurchaseName, buyer: purchaseBuyerPerson, amount: parsedAmount }),
 			});
 
-			setOrderName("");
-			setOrderAmount("");
-			setOrderBuyer(undefined);
+			setPurchaseName("");
+			setPurchaseAmount("");
+			setPurchaseBuyer(undefined);
 		},
-		[orderName, orderAmount, orderBuyer]
+		[purchaseName, purchaseAmount, purchaseBuyer]
 	);
 
 	return (
-		<>
-			<h2 style={{ paddingLeft: 5, paddingRight: 5 }}>Persons</h2>
+		<div style={{ maxWidth: 600, width: "100%", alignSelf: "center" }}>
+			<h2 style={{ marginTop: 10, paddingLeft: 5, paddingRight: 5 }}>Persons</h2>
 
 			{state.persons.map(p => (
 				<PersonItem key={p.id} person={p} onDelete={person => dispatch({ type: "remove-person", person })} />
@@ -180,30 +172,30 @@ export const App = () => {
 						alignItems: "center",
 					}}
 				>
-					Create
+					Add
 				</button>
 			</form>
 
-			<h2 style={{ marginTop: 25, paddingLeft: 5, paddingRight: 5 }}>Orders</h2>
+			<h2 style={{ marginTop: 40, paddingLeft: 5, paddingRight: 5 }}>Purchases</h2>
 
-			{state.orders.map(o => (
-				<OrderItem
+			{state.purchases.map(o => (
+				<PurchaseItem
 					key={o.id}
-					order={o}
+					purchase={o}
 					persons={state.persons}
-					onDelete={order => dispatch({ type: "remove-order", order })}
-					onAddConsumer={(order, person) => dispatch({ type: "add-person-to-order", person, order })}
-					onRemoveConsumer={(order, person) => dispatch({ type: "remove-person-from-order", person, order })}
+					onDelete={purchase => dispatch({ type: "remove-purchase", purchase })}
+					onAddConsumer={(purchase, person) => dispatch({ type: "add-person-to-purchase", person, purchase })}
+					onRemoveConsumer={(purchase, person) => dispatch({ type: "remove-person-from-purchase", person, purchase })}
 				/>
 			))}
 
-			<form onSubmit={handleOrderFormSubmit}>
+			<form onSubmit={handlePurchaseFormSubmit}>
 				<label style={{ marginTop: 5, marginBottom: 5, paddingLeft: 5, paddingRight: 5 }}>
 					Name
 					<input
 						style={{ fontSize: 16, padding: 5 }}
-						value={orderName}
-						onChange={e => setOrderName(e.target.value)}
+						value={purchaseName}
+						onChange={e => setPurchaseName(e.target.value)}
 					/>
 				</label>
 
@@ -211,8 +203,8 @@ export const App = () => {
 					Amount
 					<input
 						style={{ fontSize: 16, padding: 5 }}
-						value={orderAmount}
-						onChange={e => setOrderAmount(e.target.value)}
+						value={purchaseAmount}
+						onChange={e => setPurchaseAmount(e.target.value)}
 					/>
 				</label>
 
@@ -220,9 +212,9 @@ export const App = () => {
 					Buyer
 					<select
 						style={{ fontSize: 16, padding: 5 }}
-						value={orderBuyer && orderBuyer.id.toString()}
+						value={purchaseBuyer && purchaseBuyer.id.toString()}
 						disabled={!state.persons.length}
-						onChange={e => setOrderBuyer(state.persons.find(p => e.target.value === p.id.toString()))}
+						onChange={e => setPurchaseBuyer(state.persons.find(p => e.target.value === p.id.toString()))}
 					>
 						{state.persons.map(person => (
 							<option key={person.id} value={person.id}>
@@ -244,11 +236,11 @@ export const App = () => {
 						alignItems: "center",
 					}}
 				>
-					Create order
+					Add
 				</button>
 			</form>
 
-			<TransactionsTable persons={state.persons} orders={state.orders} />
-		</>
+			<TransactionsTable persons={state.persons} purchases={state.purchases} />
+		</div>
 	);
 };

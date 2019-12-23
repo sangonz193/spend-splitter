@@ -1,5 +1,5 @@
 import { Person } from "../personitem/PersonItem";
-import { Order, getConvenientOrderAmount } from "../orderitem/OrderItem";
+import { Purchase, getConvenientPurchaseAmount } from "../purchaseitem/PurchaseItem";
 import React from "react";
 
 export type Transaction = {
@@ -10,7 +10,7 @@ export type Transaction = {
 
 export type TransactionsTableProps = {
 	persons: Person[];
-	orders: Order[];
+	purchases: Purchase[];
 };
 
 export const TransactionsTable: React.FC<TransactionsTableProps> = props => {
@@ -20,9 +20,9 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = props => {
 		(res, person) =>
 			res.set(
 				person.id,
-				props.orders
+				props.purchases
 					.filter(order => !!order.consumers.find(p => p.id === person.id))
-					.reduce((res, order) => res + getConvenientOrderAmount(order) / order.consumers.length, 0)
+					.reduce((res, order) => res + getConvenientPurchaseAmount(order) / order.consumers.length, 0)
 			),
 		new Map()
 	);
@@ -31,9 +31,9 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = props => {
 		(res, person) =>
 			res.set(
 				person.id,
-				props.orders
+				props.purchases
 					.filter(order => order.buyer.id === person.id)
-					.reduce((res, order) => res + getConvenientOrderAmount(order), 0)
+					.reduce((res, order) => res + getConvenientPurchaseAmount(order), 0)
 			),
 		new Map()
 	);
@@ -62,7 +62,7 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = props => {
 
 	return transactions.length ? (
 		<>
-			<h2 style={{ paddingLeft: 5, paddingRight: 5, marginTop: 25 }}>Result</h2>
+			<h2 style={{ paddingLeft: 5, paddingRight: 5, marginTop: 30 }}>Result</h2>
 
 			<ul>
 				{transactions.map((t, i) => (
@@ -71,6 +71,8 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = props => {
 					</li>
 				))}
 			</ul>
+
+            <div style={{height: 50}}/>
 		</>
 	) : null;
 };

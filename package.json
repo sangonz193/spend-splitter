@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node --project tsconfig.json --compiler-options '{\"module\": \"commonjs\"}' --transpile-only scripts/start.ts",
-		"build": "ts-node --project  tsconfig.json --compiler-options '{\"module\": \"commonjs\"}'  scripts/build.ts",
+		"build": "PUBLIC_URL=/spend-splitter ts-node --project  tsconfig.json --compiler-options '{\"module\": \"commonjs\"}'  scripts/build.ts",
 		"deploy": "ts-node --project  tsconfig.json --compiler-options '{\"module\": \"commonjs\"}'  scripts/deploy.ts"
   },
   "repository": {
