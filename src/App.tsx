@@ -44,6 +44,7 @@ const reducer: React.Reducer<ReducerState, ReducerAction> = (prevState, action) 
 		newState.persons = [...prevState.persons, action.person];
 	} else if (action.type === "remove-person") {
 		newState.persons = prevState.persons.filter(p => p.id !== action.person.id);
+		newState.purchases = prevState.purchases.filter(p => p.buyer.id !== action.person.id);
 
 		newState.purchases = newState.purchases.filter(o => {
 			if (o.buyer.id === action.person.id) return false;
