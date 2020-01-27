@@ -45,15 +45,20 @@ const reducer: React.Reducer<ReducerState, ReducerAction> = (prevState, action) 
 	} else if (action.type === "remove-person") {
 		newState.persons = prevState.persons.filter(p => p.id !== action.person.id);
 
-		newState.purchases.forEach(o => {
+		newState.purchases = newState.purchases.filter(o => {
+			if (o.buyer.id === action.person.id) return false;
+
 			o.consumers = o.consumers.filter(c => c.id !== action.person.id);
+
+			return true;
 		});
 	} else if (action.type === "add-purchase") {
 		newState.purchases = [...prevState.purchases, action.purchase];
 	} else if (action.type === "remove-purchase") {
 		newState.purchases = prevState.purchases.filter(o => o.id !== action.purchase.id);
 	} else if (action.type === "add-person-to-purchase") {
-		if (!action.purchase.consumers.find(c => c.id === action.person.id)) action.purchase.consumers.push(action.person);
+		if (!action.purchase.consumers.find(c => c.id === action.person.id))
+			action.purchase.consumers.push(action.person);
 	} else if (action.type === "remove-person-from-purchase") {
 		action.purchase.consumers = action.purchase.consumers.filter(o => o.id !== action.person.id);
 	}
@@ -132,7 +137,11 @@ export const App = () => {
 
 			dispatch({
 				type: "add-purchase",
-				purchase: createPurchase({ name: trimmedPurchaseName, buyer: purchaseBuyerPerson, amount: parsedAmount }),
+				purchase: createPurchase({
+					name: trimmedPurchaseName,
+					buyer: purchaseBuyerPerson,
+					amount: parsedAmount,
+				}),
 			});
 
 			setPurchaseName("");
@@ -144,7 +153,7 @@ export const App = () => {
 
 	return (
 		<div style={{ maxWidth: 600, width: "100%", alignSelf: "center" }}>
-			<h2 style={{ marginTop: 10, paddingLeft: 5, paddingRight: 5 }}>Persons</h2>
+			<h2 style={{ marginTop: 10, paddingLeft: 5, paddingRight: 5 }}>People</h2>
 
 			{state.persons.map(p => (
 				<PersonItem key={p.id} person={p} onDelete={person => dispatch({ type: "remove-person", person })} />
@@ -185,7 +194,9 @@ export const App = () => {
 					persons={state.persons}
 					onDelete={purchase => dispatch({ type: "remove-purchase", purchase })}
 					onAddConsumer={(purchase, person) => dispatch({ type: "add-person-to-purchase", person, purchase })}
-					onRemoveConsumer={(purchase, person) => dispatch({ type: "remove-person-from-purchase", person, purchase })}
+					onRemoveConsumer={(purchase, person) =>
+						dispatch({ type: "remove-person-from-purchase", person, purchase })
+					}
 				/>
 			))}
 
