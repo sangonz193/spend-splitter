@@ -3,6 +3,7 @@ import { CommandModule } from "yargs"
 
 import { projectPath } from "../../_utils/projectPath"
 import { promiseFromChildProcess } from "../../_utils/promiseFromChildProcess"
+import { generateFiles } from "../generate-files/generateFiles"
 
 const command: CommandModule<{}, {}> = {
 	command: "dev",
@@ -10,6 +11,8 @@ const command: CommandModule<{}, {}> = {
 	describe: "Runs the app in development mode.",
 
 	handler: async () => {
+		await generateFiles()
+
 		const child = spawn("npx", ["react-scripts", "start"], {
 			stdio: "inherit",
 			cwd: projectPath,

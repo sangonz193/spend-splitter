@@ -1,19 +1,19 @@
-import React from "react";
+import React from "react"
 
 export type Person = {
-	id: number;
-	name: string;
-};
+	id: number
+	name: string
+}
 
 export type PersonItemProps = {
-	person: Person;
-	onDelete: (person: Person) => void;
-};
+	person: Person
+	onDelete: (person: Person) => void
+}
 
-export const PersonItem: React.FC<PersonItemProps> = props => {
+export const PersonItem: React.FC<PersonItemProps> = (props) => {
 	const handleDelete = React.useCallback(() => {
-		props.onDelete(props.person);
-	}, [props.onDelete, props.person]);
+		props.onDelete(props.person)
+	}, [props.onDelete, props.person])
 
 	return (
 		<li
@@ -32,5 +32,5 @@ export const PersonItem: React.FC<PersonItemProps> = props => {
 				delete
 			</button>
 		</li>
-	);
-};
+	)
+}

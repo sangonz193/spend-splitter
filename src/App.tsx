@@ -1,80 +1,85 @@
-import React from "react";
-import "./App.css";
-import { Person, PersonItem } from "./components/personitem/PersonItem";
-import { PurchaseItem, Purchase } from "./components/purchaseitem/PurchaseItem";
-import { TransactionsTable } from "./components/transactionstable/TransactionsTable";
+import "./App.css"
+
+import React from "react"
+
+import { Person, PersonItem } from "./components/personitem/PersonItem"
+import { Purchase, PurchaseItem } from "./components/purchaseitem/PurchaseItem"
+import { TransactionsTable } from "./components/transactionstable/TransactionsTable"
 
 type ReducerState = {
-	persons: Person[];
-	purchases: Purchase[];
-};
+	persons: Person[]
+	purchases: Purchase[]
+}
 
 type ReducerAction =
 	| {
-			type: "add-person";
-			person: Person;
+			type: "add-person"
+			person: Person
 	  }
 	| {
-			type: "remove-person";
-			person: Person;
+			type: "remove-person"
+			person: Person
 	  }
 	| {
-			type: "add-purchase";
-			purchase: Purchase;
+			type: "add-purchase"
+			purchase: Purchase
 	  }
 	| {
-			type: "remove-purchase";
-			purchase: Purchase;
+			type: "remove-purchase"
+			purchase: Purchase
 	  }
 	| {
-			type: "add-person-to-purchase";
-			person: Person;
-			purchase: Purchase;
+			type: "add-person-to-purchase"
+			person: Person
+			purchase: Purchase
 	  }
 	| {
-			type: "remove-person-from-purchase";
-			person: Person;
-			purchase: Purchase;
-	  };
+			type: "remove-person-from-purchase"
+			person: Person
+			purchase: Purchase
+	  }
 
 const reducer: React.Reducer<ReducerState, ReducerAction> = (prevState, action) => {
-	const newState = { ...prevState };
+	const newState = { ...prevState }
 
 	if (action.type === "add-person") {
-		newState.persons = [...prevState.persons, action.person];
+		newState.persons = [...prevState.persons, action.person]
 	} else if (action.type === "remove-person") {
-		newState.persons = prevState.persons.filter(p => p.id !== action.person.id);
-		newState.purchases = prevState.purchases.filter(p => p.buyer.id !== action.person.id);
+		newState.persons = prevState.persons.filter((p) => p.id !== action.person.id)
+		newState.purchases = prevState.purchases.filter((p) => p.buyer.id !== action.person.id)
 
-		newState.purchases = newState.purchases.filter(o => {
-			if (o.buyer.id === action.person.id) return false;
+		newState.purchases = newState.purchases.filter((o) => {
+			if (o.buyer.id === action.person.id) {
+				return false
+			}
 
-			o.consumers = o.consumers.filter(c => c.id !== action.person.id);
+			o.consumers = o.consumers.filter((c) => c.id !== action.person.id)
 
-			return true;
-		});
+			return true
+		})
 	} else if (action.type === "add-purchase") {
-		newState.purchases = [...prevState.purchases, action.purchase];
+		newState.purchases = [...prevState.purchases, action.purchase]
 	} else if (action.type === "remove-purchase") {
-		newState.purchases = prevState.purchases.filter(o => o.id !== action.purchase.id);
+		newState.purchases = prevState.purchases.filter((o) => o.id !== action.purchase.id)
 	} else if (action.type === "add-person-to-purchase") {
-		if (!action.purchase.consumers.find(c => c.id === action.person.id))
-			action.purchase.consumers.push(action.person);
+		if (!action.purchase.consumers.find((c) => c.id === action.person.id)) {
+			action.purchase.consumers.push(action.person)
+		}
 	} else if (action.type === "remove-person-from-purchase") {
-		action.purchase.consumers = action.purchase.consumers.filter(o => o.id !== action.person.id);
+		action.purchase.consumers = action.purchase.consumers.filter((o) => o.id !== action.person.id)
 	}
 
-	return newState;
-};
+	return newState
+}
 
 const createPerson = (() => {
-	let id = 0;
+	let id = 0
 
-	return (fields: { name: string }): Person => ({ id: id++, name: fields.name });
-})();
+	return (fields: { name: string }): Person => ({ id: id++, name: fields.name })
+})()
 
 const createPurchase = (() => {
-	let id = 0;
+	let id = 0
 
 	return (fields: { name: string; amount: number; buyer: Person }): Purchase => ({
 		id: id++,
@@ -82,58 +87,60 @@ const createPurchase = (() => {
 		amount: fields.amount,
 		buyer: fields.buyer,
 		consumers: [],
-	});
-})();
+	})
+})()
 
 export const App = () => {
 	const [state, dispatch] = React.useReducer<React.Reducer<ReducerState, ReducerAction>>(reducer, {
 		persons: [],
 		purchases: [],
-	});
-	const [personValue, setPersonValue] = React.useState("");
-	const [purchaseName, setPurchaseName] = React.useState("");
-	const [purchaseAmount, setPurchaseAmount] = React.useState("");
-	const [purchaseBuyer, setPurchaseBuyer] = React.useState<Person>();
+	})
+	const [personValue, setPersonValue] = React.useState("")
+	const [purchaseName, setPurchaseName] = React.useState("")
+	const [purchaseAmount, setPurchaseAmount] = React.useState("")
+	const [purchaseBuyer, setPurchaseBuyer] = React.useState<Person>()
 
 	React.useEffect(() => {
-		if (!purchaseBuyer || !state.persons.find(p => p.id !== purchaseBuyer.id)) setPurchaseBuyer(state.persons[0]);
-	}, [purchaseBuyer, state.persons]);
+		if (!purchaseBuyer || !state.persons.find((p) => p.id !== purchaseBuyer.id)) {
+			setPurchaseBuyer(state.persons[0])
+		}
+	}, [purchaseBuyer, state.persons])
 
 	const handlePersonFormSubmit = React.useCallback(
 		(e: React.FormEvent) => {
-			e.preventDefault();
+			e.preventDefault()
 
-			const trimmedPersonValue = personValue.trim();
+			const trimmedPersonValue = personValue.trim()
 
 			if (!trimmedPersonValue.length) {
-				alert("Name input cannot be empty");
-				return;
+				alert("Name input cannot be empty")
+				return
 			}
 
-			dispatch({ type: "add-person", person: createPerson({ name: trimmedPersonValue }) });
-			setPersonValue("");
+			dispatch({ type: "add-person", person: createPerson({ name: trimmedPersonValue }) })
+			setPersonValue("")
 		},
 		[personValue]
-	);
+	)
 
 	const handlePurchaseFormSubmit = React.useCallback(
 		(e: React.FormEvent) => {
-			e.preventDefault();
+			e.preventDefault()
 
-			const trimmedPurchaseAmount = purchaseAmount.trim();
-			const parsedAmount = trimmedPurchaseAmount ? Number(trimmedPurchaseAmount) : NaN;
-			const trimmedPurchaseName = purchaseName.trim();
-			const purchaseBuyerPerson = purchaseBuyer && state.persons.find(p => p.id === purchaseBuyer.id);
+			const trimmedPurchaseAmount = purchaseAmount.trim()
+			const parsedAmount = trimmedPurchaseAmount ? Number(trimmedPurchaseAmount) : NaN
+			const trimmedPurchaseName = purchaseName.trim()
+			const purchaseBuyerPerson = purchaseBuyer && state.persons.find((p) => p.id === purchaseBuyer.id)
 
 			if (!trimmedPurchaseName) {
-				alert("Purchase name cannot be empty");
-				return;
+				alert("Purchase name cannot be empty")
+				return
 			} else if (isNaN(parsedAmount)) {
-				alert("Invalid purchase amount");
-				return;
+				alert("Invalid purchase amount")
+				return
 			} else if (!purchaseBuyerPerson) {
-				alert("Purchase buyer cannot be empty");
-				return;
+				alert("Purchase buyer cannot be empty")
+				return
 			}
 
 			dispatch({
@@ -143,21 +150,21 @@ export const App = () => {
 					buyer: purchaseBuyerPerson,
 					amount: parsedAmount,
 				}),
-			});
+			})
 
-			setPurchaseName("");
-			setPurchaseAmount("");
-			setPurchaseBuyer(undefined);
+			setPurchaseName("")
+			setPurchaseAmount("")
+			setPurchaseBuyer(undefined)
 		},
 		[purchaseName, purchaseAmount, purchaseBuyer]
-	);
+	)
 
 	return (
 		<div style={{ maxWidth: 600, width: "100%", alignSelf: "center" }}>
 			<h2 style={{ marginTop: 10, paddingLeft: 5, paddingRight: 5 }}>People</h2>
 
-			{state.persons.map(p => (
-				<PersonItem key={p.id} person={p} onDelete={person => dispatch({ type: "remove-person", person })} />
+			{state.persons.map((p) => (
+				<PersonItem key={p.id} person={p} onDelete={(person) => dispatch({ type: "remove-person", person })} />
 			))}
 
 			<form onSubmit={handlePersonFormSubmit}>
@@ -166,7 +173,7 @@ export const App = () => {
 					<input
 						style={{ fontSize: 16, padding: 5 }}
 						value={personValue}
-						onChange={e => setPersonValue(e.target.value)}
+						onChange={(e) => setPersonValue(e.target.value)}
 					/>
 				</label>
 
@@ -188,12 +195,12 @@ export const App = () => {
 
 			<h2 style={{ marginTop: 40, paddingLeft: 5, paddingRight: 5 }}>Purchases</h2>
 
-			{state.purchases.map(o => (
+			{state.purchases.map((o) => (
 				<PurchaseItem
 					key={o.id}
 					purchase={o}
 					persons={state.persons}
-					onDelete={purchase => dispatch({ type: "remove-purchase", purchase })}
+					onDelete={(purchase) => dispatch({ type: "remove-purchase", purchase })}
 					onAddConsumer={(purchase, person) => dispatch({ type: "add-person-to-purchase", person, purchase })}
 					onRemoveConsumer={(purchase, person) =>
 						dispatch({ type: "remove-person-from-purchase", person, purchase })
@@ -207,7 +214,7 @@ export const App = () => {
 					<input
 						style={{ fontSize: 16, padding: 5 }}
 						value={purchaseName}
-						onChange={e => setPurchaseName(e.target.value)}
+						onChange={(e) => setPurchaseName(e.target.value)}
 					/>
 				</label>
 
@@ -216,7 +223,7 @@ export const App = () => {
 					<input
 						style={{ fontSize: 16, padding: 5 }}
 						value={purchaseAmount}
-						onChange={e => setPurchaseAmount(e.target.value)}
+						onChange={(e) => setPurchaseAmount(e.target.value)}
 					/>
 				</label>
 
@@ -226,9 +233,11 @@ export const App = () => {
 						style={{ fontSize: 16, padding: 5 }}
 						value={purchaseBuyer && purchaseBuyer.id.toString()}
 						disabled={!state.persons.length}
-						onChange={e => setPurchaseBuyer(state.persons.find(p => e.target.value === p.id.toString()))}
+						onChange={(e) =>
+							setPurchaseBuyer(state.persons.find((p) => e.target.value === p.id.toString()))
+						}
 					>
-						{state.persons.map(person => (
+						{state.persons.map((person) => (
 							<option key={person.id} value={person.id}>
 								{person.name}
 							</option>
@@ -254,5 +263,5 @@ export const App = () => {
 
 			<TransactionsTable persons={state.persons} purchases={state.purchases} />
 		</div>
-	);
-};
+	)
+}
