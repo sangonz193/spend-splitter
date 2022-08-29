@@ -27,6 +27,18 @@
     "eject": "react-scripts eject",
     "postinstall": "patch-package"
   },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "devDependencies": {
     "@babel/register": "^7.18.9",
     "@types/semver": "^7.3.12",
