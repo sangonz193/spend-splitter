@@ -4,12 +4,15 @@ import React from "react"
 import { render } from "react-dom"
 
 import { App } from "./App"
+import { FluentThemeProvider } from "./Appareance/FluentUI/FluentThemeProvider"
 import reportWebVitals from "./reportWebVitals"
 
 const root = document.getElementById("root") as HTMLElement
 render(
 	<React.StrictMode>
-		<App />
+		<FluentThemeProvider>
+			<App />
+		</FluentThemeProvider>
 	</React.StrictMode>,
 	root
 )
