@@ -1,10 +1,12 @@
 import "./App.css"
 
+import { makeStaticStyles } from "@fluentui/react-components"
 import React from "react"
 
 import { Person, PersonItem } from "./components/personitem/PersonItem"
 import { Purchase, PurchaseItem } from "./components/purchaseitem/PurchaseItem"
 import { TransactionsTable } from "./components/transactionstable/TransactionsTable"
+import { AddPersonForm } from "./People/components/AddPersonForm/AddPersonForm"
 
 type ReducerState = {
 	persons: Person[]
@@ -72,12 +74,6 @@ const reducer: React.Reducer<ReducerState, ReducerAction> = (prevState, action) 
 	return newState
 }
 
-const createPerson = (() => {
-	let id = 0
-
-	return (fields: { name: string }): Person => ({ id: id++, name: fields.name })
-})()
-
 const createPurchase = (() => {
 	let id = 0
 
@@ -90,15 +86,25 @@ const createPurchase = (() => {
 	})
 })()
 
+const useStaticStyles = makeStaticStyles({
+	"body div, body label": {
+		// move to external sheet
+		// create app external sheet. delete App.css
+		display: "flex !important",
+		flexDirection: "column",
+	},
+})
+
 export const App = () => {
 	const [state, dispatch] = React.useReducer<React.Reducer<ReducerState, ReducerAction>>(reducer, {
 		persons: [],
 		purchases: [],
 	})
-	const [personValue, setPersonValue] = React.useState("")
 	const [purchaseName, setPurchaseName] = React.useState("")
 	const [purchaseAmount, setPurchaseAmount] = React.useState("")
 	const [purchaseBuyer, setPurchaseBuyer] = React.useState<Person>()
+
+	useStaticStyles()
 
 	React.useEffect(() => {
 		if (!purchaseBuyer || !state.persons.find((p) => p.id !== purchaseBuyer.id)) {
@@ -106,22 +112,9 @@ export const App = () => {
 		}
 	}, [purchaseBuyer, state.persons])
 
-	const handlePersonFormSubmit = React.useCallback(
-		(e: React.FormEvent) => {
-			e.preventDefault()
-
-			const trimmedPersonValue = personValue.trim()
-
-			if (!trimmedPersonValue.length) {
-				alert("Name input cannot be empty")
-				return
-			}
-
-			dispatch({ type: "add-person", person: createPerson({ name: trimmedPersonValue }) })
-			setPersonValue("")
-		},
-		[personValue]
-	)
+	const handlePersonCreated = React.useCallback((person: Person) => {
+		dispatch({ type: "add-person", person: person })
+	}, [])
 
 	const handlePurchaseFormSubmit = React.useCallback(
 		(e: React.FormEvent) => {
@@ -167,31 +160,7 @@ export const App = () => {
 				<PersonItem key={p.id} person={p} onDelete={(person) => dispatch({ type: "remove-person", person })} />
 			))}
 
-			<form onSubmit={handlePersonFormSubmit}>
-				<label style={{ marginTop: 5, paddingLeft: 5, paddingRight: 5 }}>
-					Name
-					<input
-						style={{ fontSize: 16, padding: 5 }}
-						value={personValue}
-						onChange={(e) => setPersonValue(e.target.value)}
-					/>
-				</label>
-
-				<button
-					type="submit"
-					style={{
-						fontSize: 14,
-						padding: 5,
-						marginLeft: 5,
-						marginRight: 5,
-						marginTop: 10,
-						borderRadius: 5,
-						alignItems: "center",
-					}}
-				>
-					Add
-				</button>
-			</form>
+			<AddPersonForm onPersonCreated={handlePersonCreated} />
 
 			<h2 style={{ marginTop: 40, paddingLeft: 5, paddingRight: 5 }}>Purchases</h2>
 
