@@ -3,10 +3,11 @@ import "./App.css"
 import { makeStaticStyles } from "@fluentui/react-components"
 import React from "react"
 
-import { Person, PersonItem } from "./components/personitem/PersonItem"
 import { Purchase, PurchaseItem } from "./components/purchaseitem/PurchaseItem"
 import { TransactionsTable } from "./components/transactionstable/TransactionsTable"
 import { AddPersonForm } from "./People/components/AddPersonForm/AddPersonForm"
+import { PersonItem } from "./People/components/PersonItem/PersonItem"
+import { Person } from "./People/Person"
 
 type ReducerState = {
 	persons: Person[]
@@ -87,7 +88,7 @@ const createPurchase = (() => {
 })()
 
 const useStaticStyles = makeStaticStyles({
-	"body div, body label": {
+	[["div", "label", "li"].map((t) => `body ${t}`).join(",")]: {
 		// move to external sheet
 		// create app external sheet. delete App.css
 		display: "flex !important",
@@ -156,11 +157,29 @@ export const App = () => {
 		<div style={{ maxWidth: 600, width: "100%", alignSelf: "center" }}>
 			<h2 style={{ marginTop: 10, paddingLeft: 5, paddingRight: 5 }}>People</h2>
 
-			{state.persons.map((p) => (
-				<PersonItem key={p.id} person={p} onDelete={(person) => dispatch({ type: "remove-person", person })} />
-			))}
+			<div
+				style={{
+					backgroundColor: "#141414",
+					padding: "0 15px 20px",
+					borderRadius: 10,
+					marginTop: 20,
+					paddingTop: 10,
+				}}
+			>
+				{state.persons.length > 0 && (
+					<div style={{ flexDirection: "row", flexWrap: "wrap" }}>
+						{state.persons.map((p) => (
+							<PersonItem
+								key={p.id}
+								person={p}
+								onDelete={(person) => dispatch({ type: "remove-person", person })}
+							/>
+						))}
+					</div>
+				)}
 
-			<AddPersonForm onPersonCreated={handlePersonCreated} />
+				<AddPersonForm onPersonCreated={handlePersonCreated} />
+			</div>
 
 			<h2 style={{ marginTop: 40, paddingLeft: 5, paddingRight: 5 }}>Purchases</h2>
 
