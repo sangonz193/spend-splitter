@@ -1,7 +1,8 @@
 import React from "react"
 
-import { Person } from "../personitem/PersonItem"
-import { getConvenientPurchaseAmount, Purchase } from "../purchaseitem/PurchaseItem"
+import { Person } from "../../People/Person"
+import { getConvenientPurchaseAmount } from "../../Purchase/getConvenientPurchaseAmount"
+import { Purchase } from "../../Purchase/Purchase"
 
 export type Transaction = {
 	from: Person
@@ -24,8 +25,8 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = (props) => {
 			res.set(
 				person.id,
 				props.purchases
-					.filter((order) => !!order.consumers.find((p) => p.id === person.id))
-					.reduce((res, order) => res + getConvenientPurchaseAmount(order) / order.consumers.length, 0)
+					.filter((order) => !!order.consumerIds.find((consumerId) => consumerId === person.id))
+					.reduce((res, order) => res + getConvenientPurchaseAmount(order) / order.consumerIds.length, 0)
 			),
 		new Map()
 	)
@@ -35,7 +36,7 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = (props) => {
 			res.set(
 				person.id,
 				props.purchases
-					.filter((order) => order.buyer.id === person.id)
+					.filter((order) => order.buyerId === person.id)
 					.reduce((res, order) => res + getConvenientPurchaseAmount(order), 0)
 			),
 		new Map()

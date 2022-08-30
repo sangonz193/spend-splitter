@@ -1,13 +1,14 @@
 import "./App.css"
 
+import identity from "lodash/identity"
 import React from "react"
 
-import { Purchase } from "./components/purchaseitem/PurchaseItem"
 import { TransactionsTable } from "./components/transactionstable/TransactionsTable"
 import { AddPersonForm } from "./People/components/AddPersonForm/AddPersonForm"
 import { PersonItem } from "./People/components/PersonItem/PersonItem"
 import { Person } from "./People/Person"
-import { Purchases } from "./Purchase/components/Purchases/Purchases"
+import { Purchases } from "./Purchase/components/Purchases"
+import { Purchase } from "./Purchase/Purchase"
 
 export type ReducerState = {
 	persons: Person[]
@@ -49,14 +50,14 @@ const reducer: React.Reducer<ReducerState, ReducerAction> = (prevState, action) 
 		newState.persons = [...prevState.persons, action.person]
 	} else if (action.type === "remove-person") {
 		newState.persons = prevState.persons.filter((p) => p.id !== action.person.id)
-		newState.purchases = prevState.purchases.filter((p) => p.buyer.id !== action.person.id)
+		newState.purchases = prevState.purchases.filter((p) => p.buyerId !== action.person.id)
 
 		newState.purchases = newState.purchases.filter((o) => {
-			if (o.buyer.id === action.person.id) {
+			if (o.buyerId === action.person.id) {
 				return false
 			}
 
-			o.consumers = o.consumers.filter((c) => c.id !== action.person.id)
+			o.consumerIds = o.consumerIds.filter((consumerId) => consumerId !== action.person.id)
 
 			return true
 		})
@@ -65,11 +66,13 @@ const reducer: React.Reducer<ReducerState, ReducerAction> = (prevState, action) 
 	} else if (action.type === "remove-purchase") {
 		newState.purchases = prevState.purchases.filter((o) => o.id !== action.purchase.id)
 	} else if (action.type === "add-person-to-purchase") {
-		if (!action.purchase.consumers.find((c) => c.id === action.person.id)) {
-			action.purchase.consumers.push(action.person)
+		if (!action.purchase.consumerIds.find((consumerId) => consumerId === action.person.id)) {
+			action.purchase.consumerIds.push(action.person.id)
 		}
 	} else if (action.type === "remove-person-from-purchase") {
-		action.purchase.consumers = action.purchase.consumers.filter((o) => o.id !== action.person.id)
+		action.purchase.consumerIds = action.purchase.consumerIds.filter(
+			(consumerId) => consumerId !== action.person.id
+		)
 	}
 
 	return newState
@@ -77,8 +80,32 @@ const reducer: React.Reducer<ReducerState, ReducerAction> = (prevState, action) 
 
 export const App = () => {
 	const [state, dispatch] = React.useReducer<React.Reducer<ReducerState, ReducerAction>>(reducer, {
-		persons: [],
-		purchases: [],
+		persons: [
+			{
+				id: 1,
+				name: "John",
+			},
+			{
+				id: 2,
+				name: "Pepe",
+			},
+		],
+		purchases: [
+			identity<Purchase>({
+				id: 1,
+				buyerId: 1,
+				consumerIds: [1],
+				amount: 100,
+				name: "Comida",
+			}),
+			identity<Purchase>({
+				id: 1,
+				buyerId: 1,
+				consumerIds: [1, 2],
+				amount: 100,
+				name: "Bebidas",
+			}),
+		],
 	})
 
 	const handlePersonCreated = React.useCallback((person: Person) => {
@@ -93,12 +120,15 @@ export const App = () => {
 				<div
 					style={{
 						backgroundColor: "#1f1f1f",
-						padding: "0 15px 20px",
+						padding: "10px 15px 0",
 						borderRadius: 10,
 						marginTop: 20,
-						paddingTop: 10,
 					}}
 				>
+					<AddPersonForm onPersonCreated={handlePersonCreated} />
+
+					<div style={{ height: 15 }} />
+
 					{state.persons.length > 0 && (
 						<div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
 							{state.persons.map((p) => (
@@ -110,8 +140,6 @@ export const App = () => {
 							))}
 						</div>
 					)}
-
-					<AddPersonForm onPersonCreated={handlePersonCreated} />
 				</div>
 
 				<Purchases state={state} dispatch={dispatch} />
