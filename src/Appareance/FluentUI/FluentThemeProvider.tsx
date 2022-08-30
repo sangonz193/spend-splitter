@@ -1,8 +1,10 @@
 import { FluentProvider, webDarkTheme } from "@fluentui/react-components"
-import React from "react"
+import React, { CSSProperties } from "react"
 
-const themeProviderStyle = {
+const themeProviderStyle: CSSProperties = {
 	height: "100%",
+	display: "flex",
+	flexDirection: "column",
 }
 
 export const FluentThemeProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {

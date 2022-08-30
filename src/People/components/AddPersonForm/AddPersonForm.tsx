@@ -3,8 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import React, { useCallback } from "react"
 import { FormProvider } from "react-hook-form"
 
-import { Person } from "../../../components/personitem/PersonItem"
 import { FormInput } from "../../../Form/FormInput"
+import { Person } from "../../Person"
 import { addPersonFormSchema, AddPersonFormValues, useAddPersonForm } from "./AddPerson.form"
 import { useAddPersonFormStyles } from "./useAddPersonFormStyles"
 

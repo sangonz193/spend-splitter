@@ -1,20 +1,20 @@
 import "./App.css"
 
-import { makeStaticStyles } from "@fluentui/react-components"
 import React from "react"
 
-import { Purchase, PurchaseItem } from "./components/purchaseitem/PurchaseItem"
+import { Purchase } from "./components/purchaseitem/PurchaseItem"
 import { TransactionsTable } from "./components/transactionstable/TransactionsTable"
 import { AddPersonForm } from "./People/components/AddPersonForm/AddPersonForm"
 import { PersonItem } from "./People/components/PersonItem/PersonItem"
 import { Person } from "./People/Person"
+import { Purchases } from "./Purchase/components/Purchases/Purchases"
 
-type ReducerState = {
+export type ReducerState = {
 	persons: Person[]
 	purchases: Purchase[]
 }
 
-type ReducerAction =
+export type ReducerAction =
 	| {
 			type: "add-person"
 			person: Person
@@ -75,181 +75,49 @@ const reducer: React.Reducer<ReducerState, ReducerAction> = (prevState, action) 
 	return newState
 }
 
-const createPurchase = (() => {
-	let id = 0
-
-	return (fields: { name: string; amount: number; buyer: Person }): Purchase => ({
-		id: id++,
-		name: fields.name,
-		amount: fields.amount,
-		buyer: fields.buyer,
-		consumers: [],
-	})
-})()
-
-const useStaticStyles = makeStaticStyles({
-	[["div", "label", "li"].map((t) => `body ${t}`).join(",")]: {
-		// move to external sheet
-		// create app external sheet. delete App.css
-		display: "flex !important",
-		flexDirection: "column",
-	},
-})
-
 export const App = () => {
 	const [state, dispatch] = React.useReducer<React.Reducer<ReducerState, ReducerAction>>(reducer, {
 		persons: [],
 		purchases: [],
 	})
-	const [purchaseName, setPurchaseName] = React.useState("")
-	const [purchaseAmount, setPurchaseAmount] = React.useState("")
-	const [purchaseBuyer, setPurchaseBuyer] = React.useState<Person>()
-
-	useStaticStyles()
-
-	React.useEffect(() => {
-		if (!purchaseBuyer || !state.persons.find((p) => p.id !== purchaseBuyer.id)) {
-			setPurchaseBuyer(state.persons[0])
-		}
-	}, [purchaseBuyer, state.persons])
 
 	const handlePersonCreated = React.useCallback((person: Person) => {
 		dispatch({ type: "add-person", person: person })
 	}, [])
 
-	const handlePurchaseFormSubmit = React.useCallback(
-		(e: React.FormEvent) => {
-			e.preventDefault()
-
-			const trimmedPurchaseAmount = purchaseAmount.trim()
-			const parsedAmount = trimmedPurchaseAmount ? Number(trimmedPurchaseAmount) : NaN
-			const trimmedPurchaseName = purchaseName.trim()
-			const purchaseBuyerPerson = purchaseBuyer && state.persons.find((p) => p.id === purchaseBuyer.id)
-
-			if (!trimmedPurchaseName) {
-				alert("Purchase name cannot be empty")
-				return
-			} else if (isNaN(parsedAmount)) {
-				alert("Invalid purchase amount")
-				return
-			} else if (!purchaseBuyerPerson) {
-				alert("Purchase buyer cannot be empty")
-				return
-			}
-
-			dispatch({
-				type: "add-purchase",
-				purchase: createPurchase({
-					name: trimmedPurchaseName,
-					buyer: purchaseBuyerPerson,
-					amount: parsedAmount,
-				}),
-			})
-
-			setPurchaseName("")
-			setPurchaseAmount("")
-			setPurchaseBuyer(undefined)
-		},
-		[purchaseName, purchaseAmount, purchaseBuyer]
-	)
-
 	return (
-		<div style={{ maxWidth: 600, width: "100%", alignSelf: "center" }}>
-			<h2 style={{ marginTop: 10, paddingLeft: 5, paddingRight: 5 }}>People</h2>
+		<div style={{ overflow: "auto", height: "100%", padding: 100, display: "flex", flexDirection: "column" }}>
+			<div style={{ maxWidth: 600, width: "100%", alignSelf: "center" }}>
+				<h2 style={{ marginTop: 10, paddingLeft: 5, paddingRight: 5 }}>People</h2>
 
-			<div
-				style={{
-					backgroundColor: "#141414",
-					padding: "0 15px 20px",
-					borderRadius: 10,
-					marginTop: 20,
-					paddingTop: 10,
-				}}
-			>
-				{state.persons.length > 0 && (
-					<div style={{ flexDirection: "row", flexWrap: "wrap" }}>
-						{state.persons.map((p) => (
-							<PersonItem
-								key={p.id}
-								person={p}
-								onDelete={(person) => dispatch({ type: "remove-person", person })}
-							/>
-						))}
-					</div>
-				)}
-
-				<AddPersonForm onPersonCreated={handlePersonCreated} />
-			</div>
-
-			<h2 style={{ marginTop: 40, paddingLeft: 5, paddingRight: 5 }}>Purchases</h2>
-
-			{state.purchases.map((o) => (
-				<PurchaseItem
-					key={o.id}
-					purchase={o}
-					persons={state.persons}
-					onDelete={(purchase) => dispatch({ type: "remove-purchase", purchase })}
-					onAddConsumer={(purchase, person) => dispatch({ type: "add-person-to-purchase", person, purchase })}
-					onRemoveConsumer={(purchase, person) =>
-						dispatch({ type: "remove-person-from-purchase", person, purchase })
-					}
-				/>
-			))}
-
-			<form onSubmit={handlePurchaseFormSubmit}>
-				<label style={{ marginTop: 5, marginBottom: 5, paddingLeft: 5, paddingRight: 5 }}>
-					Name
-					<input
-						style={{ fontSize: 16, padding: 5 }}
-						value={purchaseName}
-						onChange={(e) => setPurchaseName(e.target.value)}
-					/>
-				</label>
-
-				<label style={{ paddingLeft: 5, paddingRight: 5 }}>
-					Amount
-					<input
-						style={{ fontSize: 16, padding: 5 }}
-						value={purchaseAmount}
-						onChange={(e) => setPurchaseAmount(e.target.value)}
-					/>
-				</label>
-
-				<label style={{ marginTop: 5, paddingLeft: 5, paddingRight: 5 }}>
-					Buyer
-					<select
-						style={{ fontSize: 16, padding: 5 }}
-						value={purchaseBuyer && purchaseBuyer.id.toString()}
-						disabled={!state.persons.length}
-						onChange={(e) =>
-							setPurchaseBuyer(state.persons.find((p) => e.target.value === p.id.toString()))
-						}
-					>
-						{state.persons.map((person) => (
-							<option key={person.id} value={person.id}>
-								{person.name}
-							</option>
-						))}
-					</select>
-				</label>
-
-				<button
-					type="submit"
+				<div
 					style={{
-						fontSize: 14,
-						padding: 5,
-						marginLeft: 5,
-						marginRight: 5,
-						marginTop: 10,
-						borderRadius: 5,
-						alignItems: "center",
+						backgroundColor: "#1f1f1f",
+						padding: "0 15px 20px",
+						borderRadius: 10,
+						marginTop: 20,
+						paddingTop: 10,
 					}}
 				>
-					Add
-				</button>
-			</form>
+					{state.persons.length > 0 && (
+						<div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+							{state.persons.map((p) => (
+								<PersonItem
+									key={p.id}
+									person={p}
+									onDelete={(person) => dispatch({ type: "remove-person", person })}
+								/>
+							))}
+						</div>
+					)}
 
-			<TransactionsTable persons={state.persons} purchases={state.purchases} />
+					<AddPersonForm onPersonCreated={handlePersonCreated} />
+				</div>
+
+				<Purchases state={state} dispatch={dispatch} />
+
+				<TransactionsTable persons={state.persons} purchases={state.purchases} />
+			</div>
 		</div>
 	)
 }

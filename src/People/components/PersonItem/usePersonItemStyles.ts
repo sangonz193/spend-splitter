@@ -11,7 +11,7 @@ const useStyles = makeStyles({
 		...shorthands.padding("5px"),
 		...shorthands.border("1px solid lightgray"),
 		marginRight: "4px",
-		backgroundColor: tokens.colorNeutralBackground1,
+		backgroundColor: tokens.colorNeutralBackground3,
 		...shorthands.borderRadius(tokens.borderRadiusCircular),
 		paddingLeft: "10px",
 		marginBottom: "10px",

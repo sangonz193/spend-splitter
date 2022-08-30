@@ -24,10 +24,10 @@ const PersonItemComponent: React.FC<PersonItemProps> = (props) => {
 	})
 
 	return (
-		<li className={styles.wrapper}>
+		<div className={styles.wrapper}>
 			<span style={{ flex: 1, marginRight: 5 }}>{props.person.name}</span>
 			<Button shape="circular" appearance="subtle" icon={<DeleteRegular />} onClick={handleDelete} />
-		</li>
+		</div>
 	)
 }
 

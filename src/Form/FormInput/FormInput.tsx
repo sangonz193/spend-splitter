@@ -30,7 +30,7 @@ const FormInputComponent = <TFormValues extends FieldValues>(props: FormInputPro
 		const { unsubscribe } = form.watch((values) => {
 			const value = values[name]
 
-			setValue(value)
+			setValue(value ?? "")
 		})
 
 		setValue(form.getValues(name) ?? "")
