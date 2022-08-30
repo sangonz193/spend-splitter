@@ -1,9 +1,10 @@
 import "./App.css"
 
-import identity from "lodash/identity"
+import { Body1 } from "@fluentui/react-components"
 import React from "react"
 
 import { TransactionsTable } from "./components/transactionstable/TransactionsTable"
+import { appConfig } from "./Config/app.config"
 import { AddPersonForm } from "./People/components/AddPersonForm/AddPersonForm"
 import { PersonItem } from "./People/components/PersonItem/PersonItem"
 import { Person } from "./People/Person"
@@ -80,32 +81,8 @@ const reducer: React.Reducer<ReducerState, ReducerAction> = (prevState, action) 
 
 export const App = () => {
 	const [state, dispatch] = React.useReducer<React.Reducer<ReducerState, ReducerAction>>(reducer, {
-		persons: [
-			{
-				id: 1,
-				name: "John",
-			},
-			{
-				id: 2,
-				name: "Pepe",
-			},
-		],
-		purchases: [
-			identity<Purchase>({
-				id: 1,
-				buyerId: 1,
-				consumerIds: [1],
-				amount: 100,
-				name: "Comida",
-			}),
-			identity<Purchase>({
-				id: 1,
-				buyerId: 1,
-				consumerIds: [1, 2],
-				amount: 100,
-				name: "Bebidas",
-			}),
-		],
+		persons: [],
+		purchases: [],
 	})
 
 	const handlePersonCreated = React.useCallback((person: Person) => {
@@ -118,12 +95,20 @@ export const App = () => {
 				overflow: "auto",
 				height: "100%",
 				paddingTop: 50,
-				paddingBottom: 100,
 				display: "flex",
 				flexDirection: "column",
 			}}
 		>
-			<div style={{ maxWidth: 600, width: "100%", alignSelf: "center" }}>
+			<div
+				style={{
+					maxWidth: 600,
+					width: "100%",
+					alignSelf: "center",
+					flexGrow: 1,
+					flexShrink: 0,
+					flexBasis: "100%",
+				}}
+			>
 				<h2 style={{ marginTop: 10, paddingLeft: 5, paddingRight: 5 }}>People</h2>
 
 				<div
@@ -154,7 +139,21 @@ export const App = () => {
 				<Purchases state={state} dispatch={dispatch} />
 
 				<TransactionsTable persons={state.persons} purchases={state.purchases} />
+
+				<div style={{ height: 100 }} />
 			</div>
+
+			<footer
+				style={{
+					height: 100,
+					display: "flex",
+					flexDirection: "row",
+					justifyContent: "flex-end",
+					padding: "10px 10px",
+				}}
+			>
+				<Body1>v{appConfig.version}</Body1>
+			</footer>
 		</div>
 	)
 }
