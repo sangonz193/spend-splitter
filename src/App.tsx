@@ -113,7 +113,16 @@ export const App = () => {
 	}, [])
 
 	return (
-		<div style={{ overflow: "auto", height: "100%", padding: 100, display: "flex", flexDirection: "column" }}>
+		<div
+			style={{
+				overflow: "auto",
+				height: "100%",
+				paddingTop: 50,
+				paddingBottom: 100,
+				display: "flex",
+				flexDirection: "column",
+			}}
+		>
 			<div style={{ maxWidth: 600, width: "100%", alignSelf: "center" }}>
 				<h2 style={{ marginTop: 10, paddingLeft: 5, paddingRight: 5 }}>People</h2>
 
