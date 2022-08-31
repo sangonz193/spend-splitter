@@ -1,4 +1,5 @@
 import { Button } from "@fluentui/react-components"
+import { AddRegular } from "@fluentui/react-icons"
 import { zodResolver } from "@hookform/resolvers/zod"
 import React, { useCallback } from "react"
 import { FormProvider } from "react-hook-form"
@@ -48,7 +49,7 @@ const AddPersonFormComponent: React.FC<AddPersonFormProps> = (props) => {
 	return (
 		<FormProvider {...form}>
 			<form className={styles.wrapper} onSubmit={form.handleSubmit(handleSubmit)}>
-				<FormInput<AddPersonFormValues> name="name" label="Name" />
+				<FormInput<AddPersonFormValues> name="name" label="Name" className={styles.input} />
 
 				<Button
 					type="submit"
@@ -56,15 +57,14 @@ const AddPersonFormComponent: React.FC<AddPersonFormProps> = (props) => {
 					style={{
 						fontSize: 14,
 						padding: 5,
-						marginLeft: "auto",
+						// marginLeft: "auto",
 						marginRight: 5,
-						marginTop: 10,
+						marginTop: 28,
 						borderRadius: 5,
 						alignItems: "center",
 					}}
-				>
-					Add
-				</Button>
+					icon={<AddRegular />}
+				/>
 			</form>
 		</FormProvider>
 	)

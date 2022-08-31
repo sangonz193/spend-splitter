@@ -66,11 +66,11 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = (props) => {
 
 	return transactions.length ? (
 		<>
-			<h2 style={{ paddingLeft: 5, paddingRight: 5, marginTop: 30 }}>Result</h2>
+			<h2 style={{ marginTop: 40, marginBottom: 10, width: "100%", maxWidth: "600px" }}>Result</h2>
 
-			<ul>
+			<ul style={{ width: "100%", maxWidth: "600px" }}>
 				{transactions.map((t, i) => (
-					<li key={i} style={{ padding: 5 }}>
+					<li key={i} style={{ listStyle: "none", marginTop: 5 }}>
 						{t.from.name} to {t.to.name}: ${t.amount}
 					</li>
 				))}

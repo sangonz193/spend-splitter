@@ -5,7 +5,10 @@ export type PurchasesStyleProps = {
 }
 
 const useStyles = makeStyles({
-	wrapper: {},
+	wrapper: {
+		width: "100%",
+		maxWidth: "600px",
+	},
 })
 
 export function usePurchasesStyles(props: PurchasesStyleProps) {

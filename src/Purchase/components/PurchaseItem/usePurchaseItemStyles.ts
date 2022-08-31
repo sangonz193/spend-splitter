@@ -9,7 +9,15 @@ const useStyles = makeStyles({
 		backgroundColor: tokens.colorNeutralBackground2,
 		marginTop: "20px",
 		...shorthands.padding("14px"),
-		...shorthands.borderRadius(tokens.borderRadiusMedium),
+		...shorthands.borderRadius(tokens.borderRadiusLarge),
+	},
+	personCheckbox: {
+		...shorthands.borderRadius(tokens.borderRadiusCircular),
+		paddingTop: "12px",
+		paddingBottom: "12px",
+		paddingLeft: "8px",
+		paddingRight: "8px",
+		marginRight: "8px",
 	},
 })
 

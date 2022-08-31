@@ -5,6 +5,7 @@ import React from "react"
 
 import { TransactionsTable } from "./components/transactionstable/TransactionsTable"
 import { appConfig } from "./Config/app.config"
+import { dummyState } from "./dummyState"
 import { AddPersonForm } from "./People/components/AddPersonForm/AddPersonForm"
 import { PersonItem } from "./People/components/PersonItem/PersonItem"
 import { Person } from "./People/Person"
@@ -80,14 +81,16 @@ const reducer: React.Reducer<ReducerState, ReducerAction> = (prevState, action) 
 }
 
 export const App = () => {
-	const [state, dispatch] = React.useReducer<React.Reducer<ReducerState, ReducerAction>>(reducer, {
-		persons: [],
-		purchases: [],
-	})
+	const [state, dispatch] = React.useReducer<React.Reducer<ReducerState, ReducerAction>>(reducer, dummyState)
 
 	const handlePersonCreated = React.useCallback((person: Person) => {
 		dispatch({ type: "add-person", person: person })
 	}, [])
+
+	const commonWidthStyle = {
+		width: "100%",
+		maxWidth: "600px",
+	}
 
 	return (
 		<div
@@ -101,39 +104,44 @@ export const App = () => {
 		>
 			<div
 				style={{
-					maxWidth: 600,
-					width: "100%",
-					alignSelf: "center",
+					display: "flex",
+					flexDirection: "column",
 					flexGrow: 1,
 					flexShrink: 0,
 					flexBasis: "100%",
+					alignItems: "center",
 				}}
 			>
-				<h2 style={{ marginTop: 10, paddingLeft: 5, paddingRight: 5 }}>People</h2>
+				<h2 style={{ marginTop: 10, marginBottom: 20, ...commonWidthStyle }}>People</h2>
 
 				<div
 					style={{
 						backgroundColor: "#1f1f1f",
-						padding: "10px 15px 0",
+						...commonWidthStyle,
+						alignSelf: "stretch",
+						padding: "10px 0 0",
+						marginLeft: "auto",
+						marginRight: "auto",
 						borderRadius: 10,
-						marginTop: 20,
 					}}
 				>
-					<AddPersonForm onPersonCreated={handlePersonCreated} />
+					<div style={{ paddingLeft: "15px", paddingRight: "15px" }}>
+						<AddPersonForm onPersonCreated={handlePersonCreated} />
 
-					<div style={{ height: 15 }} />
+						<div style={{ height: 15 }} />
 
-					{state.persons.length > 0 && (
-						<div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
-							{state.persons.map((p) => (
-								<PersonItem
-									key={p.id}
-									person={p}
-									onDelete={(person) => dispatch({ type: "remove-person", person })}
-								/>
-							))}
-						</div>
-					)}
+						{state.persons.length > 0 && (
+							<div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+								{state.persons.map((p) => (
+									<PersonItem
+										key={p.id}
+										person={p}
+										onDelete={(person) => dispatch({ type: "remove-person", person })}
+									/>
+								))}
+							</div>
+						)}
+					</div>
 				</div>
 
 				<Purchases state={state} dispatch={dispatch} />

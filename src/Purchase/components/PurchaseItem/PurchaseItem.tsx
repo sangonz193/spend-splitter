@@ -1,4 +1,4 @@
-import { Button } from "@fluentui/react-components"
+import { Body1, Button, Checkbox, Subtitle2 } from "@fluentui/react-components"
 import { DeleteRegular } from "@fluentui/react-icons"
 import React, { useMemo } from "react"
 
@@ -43,11 +43,13 @@ const PurchaseItemComponent: React.FC<PurchaseItemProps> = (props) => {
 
 	return (
 		<div className={styles.wrapper}>
-			<div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-				<span style={{ flex: 1, marginRight: 10 }}>
-					{props.purchase.name} - {buyer?.name} ($
-					{getConvenientPurchaseAmount(props.purchase)})
-				</span>
+			<div style={{ display: "flex", flexDirection: "row" }}>
+				<div style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
+					<Subtitle2 style={{ flex: 1, marginRight: 10 }}>{props.purchase.name}</Subtitle2>
+					<Body1 style={{ marginBottom: 10 }}>
+						{buyer?.name} - ${getConvenientPurchaseAmount(props.purchase)}
+					</Body1>
+				</div>
 
 				{!!props.persons.length && (
 					<Button type="button" onClick={handleSelectAll}>
@@ -58,11 +60,9 @@ const PurchaseItemComponent: React.FC<PurchaseItemProps> = (props) => {
 				<Button style={{ marginLeft: 5 }} type="button" onClick={handleDelete} icon={<DeleteRegular />} />
 			</div>
 
-			{props.persons.map((person) => (
-				<label key={person.id} style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-					<input
-						style={{ marginRight: 5 }}
-						type="checkbox"
+			<div>
+				{props.persons.map((person) => (
+					<Checkbox
 						checked={!!props.purchase.consumerIds.find((consumerId) => consumerId === person.id)}
 						onChange={(e) => {
 							if (e.target.checked) {
@@ -71,11 +71,11 @@ const PurchaseItemComponent: React.FC<PurchaseItemProps> = (props) => {
 								props.onRemoveConsumer(props.purchase, person)
 							}
 						}}
+						label={person.name}
+						className={styles.personCheckbox}
 					/>
-
-					{person.name}
-				</label>
-			))}
+				))}
+			</div>
 		</div>
 	)
 }

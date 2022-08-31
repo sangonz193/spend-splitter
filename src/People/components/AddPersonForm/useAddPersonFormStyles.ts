@@ -5,7 +5,13 @@ export type AddPersonFormStyleProps = {
 }
 
 const useStyles = makeStyles({
-	wrapper: {},
+	wrapper: {
+		display: "flex",
+		flexDirection: "row",
+	},
+	input: {
+		flexGrow: 1,
+	},
 })
 
 export function useAddPersonFormStyles(props: AddPersonFormStyleProps) {
