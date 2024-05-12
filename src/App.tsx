@@ -4,7 +4,6 @@ import React from "react"
 
 import { appConfig } from "./Config/app.config"
 import { TransactionsTable } from "./components/transactionstable/TransactionsTable"
-import { dummyState } from "./dummyState"
 import { People } from "./people/components/people"
 import { Person } from "./people/person"
 import { Purchases } from "./purchase/components/purchases"
@@ -96,7 +95,10 @@ const reducer: React.Reducer<ReducerState, ReducerAction> = (
 export const App = () => {
   const [state, dispatch] = React.useReducer<
     React.Reducer<ReducerState, ReducerAction>
-  >(reducer, dummyState)
+  >(reducer, {
+    persons: [],
+    purchases: [],
+  } satisfies ReducerState)
 
   const handlePersonCreated = React.useCallback((person: Person) => {
     dispatch({ type: "add-person", person: person })
