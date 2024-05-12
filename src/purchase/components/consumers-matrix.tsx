@@ -10,6 +10,10 @@ type Props = {
 }
 
 export function ConsumersMatrix({ state, className, dispatch }: Props) {
+  if (state.persons.length === 0 || state.purchases.length === 0) {
+    return null
+  }
+
   return (
     <div
       className={cn("mx-auto flex w-full max-w-full flex-col gap-2", className)}
