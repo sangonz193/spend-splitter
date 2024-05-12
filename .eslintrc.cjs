@@ -9,8 +9,18 @@ module.exports = {
 	],
 	ignorePatterns: ["dist", ".eslintrc.cjs"],
 	parser: "@typescript-eslint/parser",
-	plugins: ["react-refresh"],
+	plugins: ["@typescript-eslint", "react-refresh", "import"],
 	rules: {
+		"import/order": [
+			"warn",
+			{
+				groups: [["builtin", "external"], "internal", ["parent", "index", "sibling"]],
+				"newlines-between": "always",
+				alphabetize: {
+					order: "asc",
+				},
+			},
+		],
 		"react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
 	},
 }

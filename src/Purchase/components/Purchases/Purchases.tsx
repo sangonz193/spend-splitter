@@ -2,11 +2,11 @@ import { ToggleButton } from "@fluentui/react-components"
 import { TableRegular, TextBulletListLtrFilled } from "@fluentui/react-icons"
 import React, { useState } from "react"
 
+import { usePurchasesStyles } from "./usePurchasesStyles"
 import { ReducerAction, ReducerState } from "../../../App"
 import { AddPurchaseForm } from "../AddPurchaseForm"
 import { ConsumerMatrix } from "../ConsumerMatrix/ConsumerMatrix"
 import { PurchaseItem } from "../PurchaseItem"
-import { usePurchasesStyles } from "./usePurchasesStyles"
 
 export type PurchasesProps = {
 	children?: undefined

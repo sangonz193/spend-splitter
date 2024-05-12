@@ -1,7 +1,10 @@
-import { Button } from "@/components/ui/button"
 import { XIcon } from "lucide-react"
-import { cn } from "@/lib/cn"
+
 import { Person } from "../Person"
+
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/cn"
+
 
 type Props = {
 	className?: string

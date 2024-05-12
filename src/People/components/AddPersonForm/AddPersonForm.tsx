@@ -4,10 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import React, { useCallback } from "react"
 import { FormProvider } from "react-hook-form"
 
-import { FormInput } from "../../../Form/FormInput"
-import { Person } from "../../Person"
 import { addPersonFormSchema, AddPersonFormValues, useAddPersonForm } from "./AddPerson.form"
 import { useAddPersonFormStyles } from "./useAddPersonFormStyles"
+import { FormInput } from "../../../Form/FormInput"
+import { Person } from "../../Person"
 
 export type AddPersonFormProps = {
 	children?: undefined

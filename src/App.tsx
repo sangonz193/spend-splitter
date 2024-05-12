@@ -3,14 +3,14 @@ import "./App.css"
 import { Body1 } from "@fluentui/react-components"
 import React from "react"
 
-import { TransactionsTable } from "./components/transactionstable/TransactionsTable"
 import { appConfig } from "./Config/app.config"
-import { dummyState } from "./dummyState"
-import { AddPersonForm } from "./People/components/AddPersonForm/AddPersonForm"
 import { Person } from "./People/Person"
-import { Purchases } from "./Purchase/components/Purchases"
-import { Purchase } from "./Purchase/Purchase"
+import { AddPersonForm } from "./People/components/AddPersonForm/AddPersonForm"
 import { PersonPill } from "./People/components/person-pill"
+import { Purchase } from "./Purchase/Purchase"
+import { Purchases } from "./Purchase/components/Purchases"
+import { TransactionsTable } from "./components/transactionstable/TransactionsTable"
+import { dummyState } from "./dummyState"
 
 export type ReducerState = {
 	persons: Person[]

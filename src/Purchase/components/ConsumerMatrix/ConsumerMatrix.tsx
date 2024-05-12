@@ -9,9 +9,9 @@ import {
 } from "@fluentui/react-components/unstable"
 import React from "react"
 
+import { useConsumerMatrixStyles } from "./useConsumerMatrixStyles"
 import { ReducerAction, ReducerState } from "../../../App"
 import { getConsumers } from "../../getConsumers"
-import { useConsumerMatrixStyles } from "./useConsumerMatrixStyles"
 
 export type ConsumerMatrixProps = {
 	children?: undefined

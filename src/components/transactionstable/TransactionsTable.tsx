@@ -1,8 +1,8 @@
 import React from "react"
 
 import { Person } from "../../People/Person"
-import { getConvenientPurchaseAmount } from "../../Purchase/getConvenientPurchaseAmount"
 import { Purchase } from "../../Purchase/Purchase"
+import { getConvenientPurchaseAmount } from "../../Purchase/getConvenientPurchaseAmount"
 
 export type Transaction = {
 	from: Person

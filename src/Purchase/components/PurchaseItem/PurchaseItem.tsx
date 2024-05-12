@@ -2,11 +2,11 @@ import { Body1, Button, Checkbox, Subtitle2 } from "@fluentui/react-components"
 import { DeleteRegular } from "@fluentui/react-icons"
 import React, { useMemo } from "react"
 
+import { usePurchaseItemStyles } from "./usePurchaseItemStyles"
 import { Person } from "../../../People/Person"
+import { Purchase } from "../../Purchase"
 import { getConsumers } from "../../getConsumers"
 import { getConvenientPurchaseAmount } from "../../getConvenientPurchaseAmount"
-import { Purchase } from "../../Purchase"
-import { usePurchaseItemStyles } from "./usePurchaseItemStyles"
 
 export type PurchaseItemProps = {
 	children?: undefined
