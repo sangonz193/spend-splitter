@@ -7,9 +7,9 @@ import "./index.css"
 import "./global.css"
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-	<React.StrictMode>
-		<FluentThemeProvider>
-			<App />
-		</FluentThemeProvider>
-	</React.StrictMode>
+  <React.StrictMode>
+    <FluentThemeProvider>
+      <App />
+    </FluentThemeProvider>
+  </React.StrictMode>,
 )

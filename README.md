@@ -6,12 +6,12 @@ Created with React + TypeScript + Vite template.
 
 ### Version requirements
 
--   [Bun](https://bun.sh) v1.1.8+
+- [Bun](https://bun.sh) v1.1.8+
 
 ### Setup steps
 
--   Clone this repository and open a terminal inside of it.
--   Run `bun install` to install dependencies.
+- Clone this repository and open a terminal inside of it.
+- Run `bun install` to install dependencies.
 
 ### Running the app in development mode
 
