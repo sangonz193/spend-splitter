@@ -1,216 +1,84 @@
 import { ReducerState } from "./App"
+import { createPerson } from "./people/create-person"
+import { createPurchase } from "./purchase/create-purchase"
+
+const persons = [
+  createPerson("Ana"),
+  createPerson("Bob"),
+  createPerson("Carlos"),
+  createPerson("Santiago"),
+]
+
+const getRandomPerson = () =>
+  persons[Math.floor(Math.random() * persons.length)]
 
 export const dummyState: ReducerState = {
-  persons: [
-    { id: 3, name: "Ana" },
-    { id: 4, name: "Bob" },
-    { id: 5, name: "Carlos" },
-    { id: 6, name: "Santiago" },
-  ],
+  persons,
   purchases: [
-    {
-      id: 0,
+    createPurchase({
       name: "Papitas",
       amount: 130,
-      buyerId: 5,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 1,
-      name: "Alcohol y refrescos",
-      amount: 300,
-      buyerId: 3,
-      consumerIds: [3, 4, 5, 6],
-    },
-    { id: 2, name: "Carne", amount: 500, buyerId: 4, consumerIds: [4, 5, 6] },
-    {
-      id: 3,
-      name: "Verduras",
-      amount: 400,
-      buyerId: 3,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 4,
+      buyerId: getRandomPerson().id,
+    }),
+    createPurchase({
       name: "Cerveza",
       amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 5,
+      buyerId: getRandomPerson().id,
+    }),
+    createPurchase({
+      name: "Carne",
+      amount: 500,
+      buyerId: getRandomPerson().id,
+    }),
+    createPurchase({
+      name: "Papitas",
+      amount: 130,
+      buyerId: getRandomPerson().id,
+    }),
+    createPurchase({
       name: "Cerveza",
       amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 6,
+      buyerId: getRandomPerson().id,
+    }),
+    createPurchase({
+      name: "Carne",
+      amount: 500,
+      buyerId: getRandomPerson().id,
+    }),
+    createPurchase({
+      name: "Papitas",
+      amount: 130,
+      buyerId: getRandomPerson().id,
+    }),
+    createPurchase({
       name: "Cerveza",
       amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 7,
+      buyerId: getRandomPerson().id,
+    }),
+    createPurchase({
+      name: "Carne",
+      amount: 500,
+      buyerId: getRandomPerson().id,
+    }),
+    createPurchase({
+      name: "Carne",
+      amount: 500,
+      buyerId: getRandomPerson().id,
+    }),
+    createPurchase({
+      name: "Papitas",
+      amount: 130,
+      buyerId: getRandomPerson().id,
+    }),
+    createPurchase({
       name: "Cerveza",
       amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 8,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 9,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 10,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 11,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 12,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 13,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 14,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 15,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 16,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 17,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 18,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 19,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 20,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 21,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 22,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 23,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 24,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 25,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 26,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 27,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 28,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
-    {
-      id: 29,
-      name: "Cerveza",
-      amount: 200,
-      buyerId: 6,
-      consumerIds: [3, 4, 5, 6],
-    },
+      buyerId: getRandomPerson().id,
+    }),
+    createPurchase({
+      name: "Carne",
+      amount: 500,
+      buyerId: getRandomPerson().id,
+    }),
   ],
 }

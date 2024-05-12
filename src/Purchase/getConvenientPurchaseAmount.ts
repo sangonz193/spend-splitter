@@ -1,4 +1,4 @@
-import { Purchase } from "./Purchase"
+import { Purchase } from "./purchase"
 
 export const getConvenientPurchaseAmount = (purchase: Purchase) =>
   purchase.consumerIds.length

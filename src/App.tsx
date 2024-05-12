@@ -3,12 +3,12 @@ import "./App.css"
 import React from "react"
 
 import { appConfig } from "./Config/app.config"
-import { Purchase } from "./Purchase/Purchase"
-import { Purchases } from "./Purchase/components/Purchases"
 import { TransactionsTable } from "./components/transactionstable/TransactionsTable"
 import { dummyState } from "./dummyState"
 import { People } from "./people/components/people"
 import { Person } from "./people/person"
+import { Purchases } from "./purchase/components/purchases"
+import { Purchase } from "./purchase/purchase"
 
 export type ReducerState = {
   persons: Person[]
@@ -111,6 +111,7 @@ export const App = () => {
         display: "flex",
         flexDirection: "column",
       }}
+      className="gap-4"
     >
       <People
         persons={state.persons}

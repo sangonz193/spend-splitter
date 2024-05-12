@@ -16,10 +16,7 @@ export function People({ persons, onAddPerson, onDeletePerson }: Props) {
     <div className="mx-auto flex w-full max-w-xl flex-col gap-2 rounded-md border bg-card p-4">
       <h2 className="mb-2 text-xl">People</h2>
 
-      <AddPersonForm
-        existingNames={personNames}
-        onPersonCreated={onAddPerson}
-      />
+      <AddPersonForm existingNames={personNames} onAddPerson={onAddPerson} />
 
       {persons.length > 0 && (
         <div className="flex flex-row flex-wrap gap-1">

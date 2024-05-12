@@ -18,25 +18,25 @@ import {
 import { Input } from "@/components/ui/input"
 import { useZodForm } from "@/lib/react-hook-form/useZodForm"
 
+type Props = {
+  existingNames: string[]
+  onAddPerson: (person: Person) => void
+}
+
 const schema = z
   .object({
     existingNames: z.array(z.string()),
-    name: z.string().trim().min(1, "Name is required"),
+    personName: z.string().trim().min(1, "Name is required"),
   })
-  .refine((data) => !data.existingNames.includes(data.name), {
+  .refine((data) => !data.existingNames.includes(data.personName), {
     message: "Name already exists",
-    path: ["name"],
+    path: ["personName"],
   })
 
-type Props = {
-  existingNames: string[]
-  onPersonCreated: (person: Person) => void
-}
-
-export function AddPersonForm({ existingNames, onPersonCreated }: Props) {
+export function AddPersonForm({ existingNames, onAddPerson }: Props) {
   const form = useZodForm({
     schema,
-    defaultValues: { name: "", existingNames: [] },
+    defaultValues: { personName: "", existingNames: [] },
   })
 
   useEffect(() => {
@@ -46,14 +46,14 @@ export function AddPersonForm({ existingNames, onPersonCreated }: Props) {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(({ name }) => {
-          onPersonCreated(createPerson(name))
-          form.reset({ name: "", existingNames })
+        onSubmit={form.handleSubmit(({ personName }) => {
+          onAddPerson(createPerson(personName))
+          form.reset({ personName: "", existingNames })
         })}
       >
         <FormField
           control={form.control}
-          name="name"
+          name="personName"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
