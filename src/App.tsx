@@ -1,6 +1,5 @@
 import "./App.css"
 
-import { Body1 } from "@fluentui/react-components"
 import React from "react"
 
 import { appConfig } from "./Config/app.config"
@@ -139,16 +138,10 @@ export const App = () => {
         <div style={{ height: 100 }} />
       </div>
 
-      <footer
-        style={{
-          height: 100,
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "flex-end",
-          padding: "10px 10px",
-        }}
-      >
-        <Body1>v{appConfig.version}</Body1>
+      <footer className="flex p-3">
+        <span className="ml-auto text-muted-foreground">
+          v{appConfig.version}
+        </span>
       </footer>
     </div>
   )
