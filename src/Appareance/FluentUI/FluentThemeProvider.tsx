@@ -11,7 +11,7 @@ const themeProviderStyle: CSSProperties = {
 
 applyThemeOutsideContext(webDarkTheme)
 
-export const FluentThemeProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
+export const FluentThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 	return (
 		<FluentProvider theme={webDarkTheme} style={themeProviderStyle}>
 			{children}
