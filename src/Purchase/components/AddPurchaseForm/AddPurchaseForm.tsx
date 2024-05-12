@@ -61,7 +61,6 @@ const AddPurchaseFormComponent: React.FC<AddPurchaseFormProps> = (props) => {
 			const purchaseBuyerPerson = buyerId && persons.find((p) => p.id.toString() === buyerId)
 
 			if (!purchaseBuyerPerson) {
-				debugger
 				alert("Purchase buyer cannot be empty")
 				return
 			}

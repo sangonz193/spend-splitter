@@ -1,22 +1,22 @@
 import { z } from "zod"
 
-const { APP_NAME, BACKEND_URL, PUBLIC_URL, npm_package_version } = z
+declare const APP_VERSION: string
+
+const { VITE_APP_NAME: APP_NAME } = z
 	.object({
-		APP_NAME: z.string(),
-		BACKEND_URL: z.string(),
-		PUBLIC_URL: z.string().default(""),
-		npm_package_version: z.string(),
+		VITE_APP_NAME: z.string(),
+		APP_VERSION: z.string(),
 	})
 	.required()
-	.parse(process.env)
+	.parse({
+		VITE_APP_NAME: import.meta.env.VITE_APP_NAME,
+		APP_VERSION,
+	})
 
 export const appConfig = {
-	production: process.env.NODE_ENV === "production",
+	production: import.meta.env.MODE === "production",
 	name: APP_NAME,
 	shortCodeName: "ss",
-	backendUrl: BACKEND_URL,
-	version: npm_package_version,
-	storageScope: PUBLIC_URL.replace(/\/$/, "") || "/",
-	historyBasename: PUBLIC_URL.startsWith("http") ? new URL(PUBLIC_URL).pathname : PUBLIC_URL.replace(/\/$/, ""),
+	version: APP_VERSION,
 	baseUrl: location.origin.replace(/\/$/, ""),
 }

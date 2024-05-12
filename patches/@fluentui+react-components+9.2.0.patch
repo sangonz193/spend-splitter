@@ -1,0 +1,19 @@
+diff --git a/node_modules/@fluentui/react-components/package.json b/node_modules/@fluentui/react-components/package.json
+index e06e67b..f057c0f 100644
+--- a/node_modules/@fluentui/react-components/package.json
++++ b/node_modules/@fluentui/react-components/package.json
+@@ -84,12 +84,12 @@
+   },
+   "exports": {
+     ".": {
+-      "types": "./lib/index.d.ts",
++      "types": "./dist/index.d.ts",
+       "import": "./lib/index.js",
+       "require": "./lib-commonjs/index.js"
+     },
+     "./unstable": {
+-      "types": "./lib/unstable/index.d.ts",
++      "types": "./dist/unstable.d.ts",
+       "import": "./lib/unstable/index.js",
+       "require": "./lib-commonjs/unstable/index.js"
+     },

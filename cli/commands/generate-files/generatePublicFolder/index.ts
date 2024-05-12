@@ -1,1 +1,0 @@
-export { generatePublicFolder } from "./generatePublicFolder"

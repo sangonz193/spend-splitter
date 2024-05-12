@@ -14,7 +14,7 @@ const FormDropdownComponent = <TFormValues extends FieldValues>(props: FormDropd
 	const { name, label, className } = props
 
 	const form = useFormContext<TFormValues>()
-	const { ref: _ref, ...registerProps } = form.register(props.name)
+	const { ...registerProps } = form.register(props.name)
 
 	const [value, setValue] = React.useState("")
 
@@ -53,11 +53,9 @@ const FormDropdownComponent = <TFormValues extends FieldValues>(props: FormDropd
 				{...props}
 				{...registerProps}
 				selectedOptions={value ? [value] : []}
-				onSelect={
-					((_, data) => {
-						form.setValue(name, data.optionValue as any)
-					}) as DropdownProps["onSelect"]
-				}
+				onOptionSelect={(_, data) => {
+					form.setValue(name, data.optionValue as never)
+				}}
 			>
 				{props.children}
 			</Dropdown>
