@@ -3,7 +3,6 @@ import { Theme } from "@fluentui/react-components"
 import { appConfig } from "../Config/app.config"
 
 export function applyThemeOutsideContext(theme: Theme) {
-	document.body.style.backgroundColor = theme.colorNeutralBackground1
 	const styleElementId = `@${appConfig.shortCodeName}-custom-styles`
 	let customStyleElement = document.getElementById(styleElementId)
 	if (!customStyleElement) {
