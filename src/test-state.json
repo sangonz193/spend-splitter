@@ -1,0 +1,81 @@
+{
+  "persons": [
+    {
+      "id": 0,
+      "name": "Santiago"
+    },
+    {
+      "id": 1,
+      "name": "Andres"
+    },
+    {
+      "id": 2,
+      "name": "Roberto"
+    }
+  ],
+  "purchases": [
+    {
+      "name": "Asado",
+      "amount": 1233,
+      "buyerId": 0,
+      "id": 0,
+      "consumerIds": []
+    },
+    {
+      "name": "Papapas",
+      "amount": 100,
+      "buyerId": 2,
+      "id": 1,
+      "consumerIds": []
+    },
+    {
+      "name": "TEst",
+      "amount": 123,
+      "buyerId": 1,
+      "id": 2,
+      "consumerIds": []
+    },
+    {
+      "name": "Asado 2",
+      "amount": 123123,
+      "buyerId": 1,
+      "id": 3,
+      "consumerIds": []
+    },
+    {
+      "name": "TEstasd a",
+      "amount": 12314,
+      "buyerId": 2,
+      "id": 4,
+      "consumerIds": []
+    },
+    {
+      "name": "asdasd",
+      "amount": 2343,
+      "buyerId": 0,
+      "id": 5,
+      "consumerIds": []
+    },
+    {
+      "name": "te",
+      "amount": 23.334,
+      "buyerId": 2,
+      "id": 6,
+      "consumerIds": []
+    },
+    {
+      "name": "yrsdf",
+      "amount": 23.23,
+      "buyerId": 1,
+      "id": 7,
+      "consumerIds": []
+    },
+    {
+      "name": "te",
+      "amount": 123,
+      "buyerId": 1,
+      "id": 8,
+      "consumerIds": []
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import { People } from "./people/components/people"
 import { Person } from "./people/person"
 import { Purchases } from "./purchase/components/purchases"
 import { Purchase } from "./purchase/purchase"
+// import testState from "./test-state.json"
 
 export type ReducerState = {
   persons: Person[]
@@ -95,6 +96,7 @@ const reducer: React.Reducer<ReducerState, ReducerAction> = (
 export const App = () => {
   const [state, dispatch] = React.useReducer<
     React.Reducer<ReducerState, ReducerAction>
+    // >(reducer, testState)
   >(reducer, {
     persons: [],
     purchases: [],
@@ -109,11 +111,10 @@ export const App = () => {
       style={{
         overflow: "auto",
         height: "100%",
-        paddingTop: 50,
         display: "flex",
         flexDirection: "column",
       }}
-      className="gap-4"
+      className="gap-4 p-4"
     >
       <People
         persons={state.persons}

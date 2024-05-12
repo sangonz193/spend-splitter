@@ -11,17 +11,19 @@ type Props = {
 
 export function ConsumersMatrix({ state, className, dispatch }: Props) {
   return (
-    <div className={cn("flex max-w-full flex-col gap-2", className)}>
-      <span className="mx-auto w-full max-w-xl px-4 text-muted-foreground">
+    <div
+      className={cn("mx-auto flex w-full max-w-full flex-col gap-2", className)}
+    >
+      <span className="mx-auto w-full max-w-xl text-muted-foreground">
         Select who benefited from each purchase.
       </span>
 
-      <div className="max-w-full overflow-auto px-4 pb-4">
-        <div>
+      <div className="flex w-full overflow-auto">
+        <div className="mx-auto min-w-[36rem] px-4 pb-4">
           <table>
             <thead>
               <tr>
-                <th>Person</th>
+                <th className="px-4">Person</th>
                 {state.purchases.map((purchase) => {
                   return (
                     <th key={purchase.id}>
@@ -68,7 +70,7 @@ export function ConsumersMatrix({ state, className, dispatch }: Props) {
             <tbody>
               {state.persons.map((person) => (
                 <tr key={person.id}>
-                  <td>{person.name}</td>
+                  <td className="px-4 text-center">{person.name}</td>
 
                   {state.purchases.map((purchase) => {
                     return (
