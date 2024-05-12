@@ -3,7 +3,7 @@ import { DeleteRegular } from "@fluentui/react-icons"
 import React, { useMemo } from "react"
 
 import { usePurchaseItemStyles } from "./usePurchaseItemStyles"
-import { Person } from "../../../People/Person"
+import { Person } from "../../../people/person"
 import { Purchase } from "../../Purchase"
 import { getConsumers } from "../../getConsumers"
 import { getConvenientPurchaseAmount } from "../../getConvenientPurchaseAmount"

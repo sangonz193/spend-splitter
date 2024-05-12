@@ -1,6 +1,6 @@
 import { XIcon } from "lucide-react"
 
-import { Person } from "../Person"
+import { Person } from "../person"
 
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/cn"

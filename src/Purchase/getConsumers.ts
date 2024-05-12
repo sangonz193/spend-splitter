@@ -1,5 +1,5 @@
 import { Purchase } from "./Purchase"
-import { Person } from "../People/Person"
+import { Person } from "../people/person"
 
 export function getConsumers(purchase: Purchase, people: Person[]): Person[] {
   return purchase.consumerIds

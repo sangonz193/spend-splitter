@@ -4,13 +4,12 @@ import { Body1 } from "@fluentui/react-components"
 import React from "react"
 
 import { appConfig } from "./Config/app.config"
-import { Person } from "./People/Person"
-import { AddPersonForm } from "./People/components/AddPersonForm/AddPersonForm"
-import { PersonPill } from "./People/components/person-pill"
 import { Purchase } from "./Purchase/Purchase"
 import { Purchases } from "./Purchase/components/Purchases"
 import { TransactionsTable } from "./components/transactionstable/TransactionsTable"
 import { dummyState } from "./dummyState"
+import { People } from "./people/components/people"
+import { Person } from "./people/person"
 
 export type ReducerState = {
   persons: Person[]
@@ -104,11 +103,6 @@ export const App = () => {
     dispatch({ type: "add-person", person: person })
   }, [])
 
-  const commonWidthStyle = {
-    width: "100%",
-    maxWidth: "600px",
-  }
-
   return (
     <div
       style={{
@@ -119,6 +113,12 @@ export const App = () => {
         flexDirection: "column",
       }}
     >
+      <People
+        persons={state.persons}
+        onAddPerson={handlePersonCreated}
+        onDeletePerson={(person) => dispatch({ type: "remove-person", person })}
+      />
+
       <div
         style={{
           display: "flex",
@@ -129,52 +129,6 @@ export const App = () => {
           alignItems: "center",
         }}
       >
-        <h2 style={{ marginTop: 10, marginBottom: 20, ...commonWidthStyle }}>
-          People
-        </h2>
-
-        <div
-          style={{
-            backgroundColor: "#1f1f1f",
-            ...commonWidthStyle,
-            alignSelf: "stretch",
-            padding: "10px 0 0",
-            marginLeft: "auto",
-            marginRight: "auto",
-            borderRadius: 10,
-          }}
-        >
-          <div
-            style={{ paddingLeft: "15px", paddingRight: "15px" }}
-            className="pb-2"
-          >
-            <AddPersonForm onPersonCreated={handlePersonCreated} />
-
-            <div style={{ height: 15 }} />
-
-            {state.persons.length > 0 && (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-                className="flex flex-row flex-wrap gap-1"
-              >
-                {state.persons.map((p) => (
-                  <PersonPill
-                    key={p.id}
-                    person={p}
-                    onDelete={(person) =>
-                      dispatch({ type: "remove-person", person })
-                    }
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
         <Purchases state={state} dispatch={dispatch} />
 
         <TransactionsTable

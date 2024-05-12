@@ -13,7 +13,7 @@ import { useAddPurchaseFormStyles } from "./useAddPurchaseFormStyles"
 import { ReducerAction } from "../../../App"
 import { FormDropdown } from "../../../Form/FormDropdown"
 import { FormInput } from "../../../Form/FormInput"
-import { Person } from "../../../People/Person"
+import { Person } from "../../../people/person"
 import { Purchase } from "../../Purchase"
 
 export type AddPurchaseFormProps = {

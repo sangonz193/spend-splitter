@@ -1,4 +1,4 @@
-import { Person } from "../People/Person"
+import { Person } from "../people/person"
 
 export type Purchase = {
   id: number
