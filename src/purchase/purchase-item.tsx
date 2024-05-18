@@ -2,8 +2,8 @@ import { XIcon } from "lucide-react"
 
 import { Purchase } from "./purchase"
 
-import { ReducerAction } from "@/App"
 import { Button } from "@/components/ui/button"
+import { ReducerAction } from "@/reducer"
 
 type Props = {
   purchase: Purchase

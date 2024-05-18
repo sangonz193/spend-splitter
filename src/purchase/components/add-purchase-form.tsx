@@ -79,7 +79,7 @@ export function AddPurchaseForm({ people, onAddPurchase }: Props) {
                 <FormLabel>Item name</FormLabel>
 
                 <FormControl>
-                  <Input {...field} className="rounded-e-none" />
+                  <Input {...field} />
                 </FormControl>
 
                 <FormMessage />
@@ -94,11 +94,7 @@ export function AddPurchaseForm({ people, onAddPurchase }: Props) {
                 <FormLabel>Amount</FormLabel>
 
                 <FormControl>
-                  <Input
-                    {...field}
-                    value={field.value?.toString()}
-                    className="rounded-e-none"
-                  />
+                  <Input {...field} value={field.value?.toString()} />
                 </FormControl>
 
                 <FormMessage />
@@ -124,6 +120,7 @@ export function AddPurchaseForm({ people, onAddPurchase }: Props) {
                         "flex w-[200px] justify-between",
                         !field.value && "text-muted-foreground",
                       )}
+                      disabled={peopleOptions.length === 0}
                     >
                       {field.value
                         ? peopleOptions.find(

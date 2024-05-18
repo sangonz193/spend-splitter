@@ -1,8 +1,8 @@
 import { AddPurchaseForm } from "./add-purchase-form"
 import { ConsumersMatrix } from "./consumers-matrix"
-import { ReducerAction, ReducerState } from "../../App"
 
 import { PurchaseItem } from "@/purchase/purchase-item"
+import { ReducerAction, ReducerState } from "@/reducer"
 
 type Props = {
   children?: undefined

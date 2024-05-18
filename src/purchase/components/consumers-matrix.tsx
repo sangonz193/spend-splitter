@@ -1,7 +1,7 @@
-import { ReducerAction, ReducerState } from "@/App"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { cn } from "@/lib/cn"
+import { ReducerAction, ReducerState } from "@/reducer"
 
 type Props = {
   state: ReducerState
