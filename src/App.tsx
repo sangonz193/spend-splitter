@@ -26,7 +26,7 @@ export const App = () => {
 
   return (
     <div className="flex h-full flex-col gap-4 overflow-auto p-4">
-      <div className="flex h-full shrink-0 grow flex-col items-center gap-4">
+      <div className="flex min-h-full shrink-0 grow flex-col items-center gap-4">
         <People
           persons={state.persons}
           onAddPerson={handlePersonCreated}
@@ -41,8 +41,6 @@ export const App = () => {
           persons={state.persons}
           purchases={state.purchases}
         />
-
-        <div style={{ height: 100 }} />
       </div>
 
       <footer className="flex p-3">
